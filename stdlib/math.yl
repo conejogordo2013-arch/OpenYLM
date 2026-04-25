@@ -1,0 +1,9 @@
+module: math
+export:
+  - add
+  - sub
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib math loaded"

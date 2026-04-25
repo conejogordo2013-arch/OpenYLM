@@ -1,0 +1,9 @@
+module: io
+export:
+  - print
+  - log
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib io loaded"

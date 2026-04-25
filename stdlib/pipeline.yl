@@ -1,0 +1,9 @@
+module: pipeline
+export:
+  - run
+  - step
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib pipeline loaded"

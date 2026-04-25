@@ -1,0 +1,9 @@
+module: logic
+export:
+  - if_else
+  - rule
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib logic loaded"

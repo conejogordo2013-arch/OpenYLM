@@ -1,0 +1,7 @@
+import: math.yl
+program:
+  - call:
+      host: math.add
+      args:
+        a: 2
+        b: 3

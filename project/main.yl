@@ -1,0 +1,14 @@
+import: ../stdlib/io.yl
+import: ../stdlib/math.yl
+import: ../stdlib/logic.yl
+import: ../stdlib/pipeline.yl
+program:
+  - call:
+      host: log
+      args:
+        text: "project main"
+  - call:
+      host: math.add
+      args:
+        a: 4
+        b: 6
