@@ -1,0 +1,33 @@
+program:
+  - call:
+      host: log
+      args:
+        step1: "loop-1"
+  - call:
+      host: log
+      args:
+        step2: "loop-2"
+  - call:
+      host: log
+      args:
+        step3: "loop-3"
+  - call:
+      host: log
+      args:
+        step4: "loop-4"
+  - call:
+      host: log
+      args:
+        step5: "loop-5"
+  - call:
+      host: log
+      args:
+        step6: "loop-6"
+  - call:
+      host: log
+      args:
+        step7: "loop-7"
+  - call:
+      host: log
+      args:
+        step8: "loop-8"

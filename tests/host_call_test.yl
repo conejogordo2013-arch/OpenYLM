@@ -1,0 +1,13 @@
+program:
+  - call:
+      host: log
+      args:
+        first: "one"
+  - call:
+      host: log
+      args:
+        second: "two"
+  - call:
+      host: print
+      args:
+        third: "three"

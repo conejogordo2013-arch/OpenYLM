@@ -1,0 +1,8 @@
+module: string
+export:
+  - concat
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib string loaded"
