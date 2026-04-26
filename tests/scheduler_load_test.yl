@@ -1,0 +1,21 @@
+program:
+  - call:
+      host: log
+      args:
+        s1: "tick-1"
+  - call:
+      host: log
+      args:
+        s2: "tick-2"
+  - call:
+      host: log
+      args:
+        s3: "tick-3"
+  - call:
+      host: log
+      args:
+        s4: "tick-4"
+  - call:
+      host: log
+      args:
+        s5: "tick-5"

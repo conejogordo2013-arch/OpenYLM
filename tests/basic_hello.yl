@@ -1,0 +1,6 @@
+import: io.yl
+program:
+  - call:
+      host: log
+      args:
+        text: "basic hello"

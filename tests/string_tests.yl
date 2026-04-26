@@ -1,0 +1,6 @@
+import: string.yl
+program:
+  - call:
+      host: log
+      args:
+        msg: "string-tests"

@@ -1,7 +1,9 @@
 module: logic
 export:
   - if_else
-  - rule
+  - and
+  - or
+  - not
 program:
   - call:
       host: log

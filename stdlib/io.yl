@@ -1,7 +1,7 @@
 module: io
 export:
-  - print
   - log
+  - print
 program:
   - call:
       host: log

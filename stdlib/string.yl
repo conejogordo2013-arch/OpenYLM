@@ -1,6 +1,8 @@
 module: string
 export:
   - concat
+  - length
+  - substring
 program:
   - call:
       host: log
