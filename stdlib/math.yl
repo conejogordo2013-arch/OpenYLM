@@ -2,6 +2,8 @@ module: math
 export:
   - add
   - sub
+  - mul
+  - div
 program:
   - call:
       host: log

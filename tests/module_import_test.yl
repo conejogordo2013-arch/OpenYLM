@@ -1,0 +1,12 @@
+import: io.yl
+import: math.yl
+import: string.yl
+import: logic.yl
+import: flow.yl
+import: data.yl
+import: ylmlib.yl
+program:
+  - call:
+      host: log
+      args:
+        text: "module import test"

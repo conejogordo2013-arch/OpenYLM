@@ -44,6 +44,7 @@ bool parseSourceUnit(const std::string& yamlPath, SourceUnit& out, bool debug, s
     bool sawProgram = false;
     bool inCall = false;
     bool inExport = false;
+    bool inProgramBlock = false;
     ir::Node current;
 
     while (std::getline(in, line)) {
@@ -58,10 +59,12 @@ bool parseSourceUnit(const std::string& yamlPath, SourceUnit& out, bool debug, s
         }
 
         if (t.rfind("import:", 0) == 0) {
+            inProgramBlock = false;
             out.imports.push_back(unquote(t.substr(7)));
             continue;
         }
         if (t.rfind("module:", 0) == 0) {
+            inProgramBlock = false;
             out.moduleName = unquote(t.substr(7));
             continue;
         }
@@ -77,6 +80,7 @@ bool parseSourceUnit(const std::string& yamlPath, SourceUnit& out, bool debug, s
 
         if (t == "program:") {
             sawProgram = true;
+            inProgramBlock = true;
             continue;
         }
 
@@ -122,6 +126,9 @@ bool parseSourceUnit(const std::string& yamlPath, SourceUnit& out, bool debug, s
         }
 
         if (!inCall) {
+            if (inProgramBlock && t.rfind("-", 0) == 0) {
+                addError(errors, yamlPath, lineNo, ErrorType::Syntax, "unsupported program entry; expected call/if/loop");
+            }
             continue;
         }
 
@@ -139,7 +146,11 @@ bool parseSourceUnit(const std::string& yamlPath, SourceUnit& out, bool debug, s
 
         const auto colon = t.find(':');
         if (colon != std::string::npos) {
-            current.args.push_back(unquote(t.substr(colon + 1)));
+            const auto value = unquote(t.substr(colon + 1));
+            if (trim(value).empty()) {
+                addError(errors, yamlPath, lineNo, ErrorType::Syntax, "argument value cannot be empty");
+            }
+            current.args.push_back(value);
         } else {
             addError(errors, yamlPath, lineNo, ErrorType::Syntax, "invalid key/value syntax");
         }

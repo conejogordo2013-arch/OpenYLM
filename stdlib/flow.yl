@@ -1,0 +1,10 @@
+module: flow
+export:
+  - pipeline
+  - sequence
+  - step
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib flow loaded"

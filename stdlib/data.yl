@@ -1,0 +1,11 @@
+module: data
+export:
+  - map
+  - list
+  - get
+  - set
+program:
+  - call:
+      host: log
+      args:
+        info: "stdlib data loaded"

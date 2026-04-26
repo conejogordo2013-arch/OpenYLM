@@ -1,0 +1,17 @@
+program:
+  - call:
+      host: log
+      args:
+        v1: "m1"
+  - call:
+      host: log
+      args:
+        v2: "m2"
+  - call:
+      host: log
+      args:
+        v3: "m3"
+  - call:
+      host: log
+      args:
+        v4: "m4"
