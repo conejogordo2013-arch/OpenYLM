@@ -1,0 +1,145 @@
+import: ylmlib.yl
+program:
+  - call:
+      host: log
+      args:
+        start: "=== COMPLEX ENTERPRISE WORKFLOW START ==="
+
+  - call:
+      host: log
+      args:
+        phase1: "[INGEST] Loading customer, payment, device, geo datasets"
+  - call:
+      host: math.add
+      args:
+        base_risk: 15
+        kyc_risk: 20
+  - call:
+      host: math.add
+      args:
+        geo_risk: 35
+        velocity_risk: 25
+  - call:
+      host: math.add
+      args:
+        behavioral_risk: 18
+        blacklist_risk: 40
+
+  - call:
+      host: log
+      args:
+        phase2: "[RULES] Evaluating KYC completeness + sanctions + age checks"
+  - call:
+      host: math.add
+      args:
+        kyc_docs: 10
+        sanctions_hits: 0
+  - call:
+      host: math.add
+      args:
+        account_age_days: 3
+        burst_tx_count: 7
+
+  - call:
+      host: log
+      args:
+        phase3: "[RULES] Device consistency, IP reputation, impossible-travel"
+  - call:
+      host: math.add
+      args:
+        device_mismatch: 22
+        ip_rep_bad: 16
+  - call:
+      host: math.add
+      args:
+        impossible_travel: 30
+        vpn_proxy: 9
+
+  - call:
+      host: log
+      args:
+        phase4: "[RULES] Amount windows + merchant profile + historical baseline"
+  - call:
+      host: math.add
+      args:
+        high_amount: 45
+        unusual_merchant: 18
+  - call:
+      host: math.add
+      args:
+        deviation_from_baseline: 27
+        weekend_night_factor: 8
+
+  - call:
+      host: log
+      args:
+        phase5: "[AGGREGATION] Consolidating partial scores"
+  - call:
+      host: math.add
+      args:
+        partial_a: 35
+        partial_b: 60
+  - call:
+      host: math.add
+      args:
+        partial_c: 58
+        partial_d: 39
+  - call:
+      host: math.add
+      args:
+        partial_e: 63
+        partial_f: 35
+
+  - call:
+      host: log
+      args:
+        phase6: "[DECISION] Thresholding -> REVIEW / BLOCK / APPROVE"
+  - call:
+      host: log
+      args:
+        threshold1: "if score >= 120 -> BLOCK"
+  - call:
+      host: log
+      args:
+        threshold2: "if score >= 80 and <120 -> MANUAL_REVIEW"
+  - call:
+      host: log
+      args:
+        threshold3: "if score < 80 -> APPROVE"
+
+  - call:
+      host: log
+      args:
+        phase7: "[ACTIONS] Case creation + alerts + write-audit"
+  - call:
+      host: log
+      args:
+        action1: "create_case(case_type=fraud, priority=high)"
+  - call:
+      host: log
+      args:
+        action2: "notify(channel=soc, severity=critical)"
+  - call:
+      host: log
+      args:
+        action3: "persist(trace_id=TRC-2026-04-26-00091)"
+
+  - call:
+      host: log
+      args:
+        phase8: "[POST] Metrics update + SLA timers + recovery plan"
+  - call:
+      host: math.add
+      args:
+        blocked_tx: 3
+        reviewed_tx: 11
+  - call:
+      host: math.add
+      args:
+        approved_tx: 86
+        retried_tx: 5
+
+  - call:
+      host: log
+      args:
+        end: "=== COMPLEX ENTERPRISE WORKFLOW END ==="
