@@ -2,6 +2,7 @@ module: pipeline
 export:
   - run
   - step
+  - sequence
 program:
   - call:
       host: log

@@ -18,6 +18,22 @@ set(OPENYLM_COMMON_SOURCES
     vm/vm.cpp
     vm/scheduler.cpp
     vm/multi_app_runtime.cpp
+    vm/runtime_error.cpp
+    ylvm/context.cpp
+    ylvm/scheduler.cpp
+    ylvm/executor.cpp
+    ylvm/isolation.cpp
+    debug/debugger.cpp
+    debug/inspector.cpp
+    runtime/app_manager.cpp
+    runtime/app_context.cpp
+    runtime/control_api.cpp
+    security/sandbox.cpp
+    security/permissions.cpp
+    jit/jit_engine.cpp
+    jit/optimizer.cpp
+    inspector/runtime_view.cpp
+    inspector/debugger_ui.cpp
 )
 
 add_library(openylm_core STATIC ${OPENYLM_COMMON_SOURCES})

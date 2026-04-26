@@ -1,0 +1,4 @@
+program:
+  - call:
+      args
+        data: "broken"

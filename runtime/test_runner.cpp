@@ -5,6 +5,7 @@
 #include "../compiler/ir_to_bytecode.h"
 #include "../compiler/module_resolver.h"
 #include "../host/host_registry.h"
+#include "../vm/multi_app_runtime.h"
 #include "../vm/vm.h"
 
 #include <algorithm>
@@ -15,13 +16,13 @@
 namespace openylm::runtime {
 namespace {
 
-bool runSingle(const std::filesystem::path& path, bool debug, std::ostringstream& out, bool expectError) {
+bool runSingle(const std::filesystem::path& path, bool debug, std::ostringstream& out, bool expectCompileError, bool expectRuntimeError) {
     std::vector<compiler::CompilerError> compileErrors;
     compiler::ResolvedProject resolved;
     const bool parsed = compiler::resolveProject(path.string(), debug, resolved, compileErrors);
 
     if (!parsed) {
-        if (expectError) {
+        if (expectCompileError) {
             out << "[TEST] " << path.filename().string() << " -> PASS (expected compile error)\n";
             return true;
         }
@@ -51,10 +52,29 @@ bool runSingle(const std::filesystem::path& path, bool debug, std::ostringstream
 
     host::HostRegistry registry;
     host::registerDefaultRuntimeHosts(registry);
-    vm::VM vm(registry);
     std::string vmError;
-    if (!vm.execute(bytecodeProgram, vmError)) {
+    bool vmOk = true;
+
+    if (expectRuntimeError) {
+        vm::MultiAppRuntime runtime(registry);
+        runtime.loadApp(path.filename().string(), bytecodeProgram);
+        vmOk = runtime.runAll(vmError);
+    } else {
+        vm::VM vm(registry);
+        vmOk = vm.execute(bytecodeProgram, vmError);
+    }
+
+    if (!vmOk && expectRuntimeError) {
+        out << "[TEST] " << path.filename().string() << " -> PASS (expected runtime error)\n";
+        return true;
+    }
+    if (!vmOk) {
         out << "[TEST] " << path.filename().string() << " -> FAIL (vm: " << vmError << ")\n";
+        return false;
+    }
+
+    if (expectRuntimeError) {
+        out << "[TEST] " << path.filename().string() << " -> FAIL (expected runtime error)\n";
         return false;
     }
 
@@ -62,7 +82,23 @@ bool runSingle(const std::filesystem::path& path, bool debug, std::ostringstream
     return true;
 }
 
+bool shouldExpectCompileError(const std::string& name) {
+    return name == "invalid_syntax.yl" || name == "invalid_bytecode.yl";
+}
+
+bool shouldExpectRuntimeError(const std::string& name) {
+    return name == "sandbox_violation.yl" || name == "memory_limit_test.yl";
+}
+
 } // namespace
+
+bool runSingleTest(const std::string& testFile, bool debug, std::string& report) {
+    std::ostringstream out;
+    const std::filesystem::path path(testFile);
+    const bool ok = runSingle(path, debug, out, shouldExpectCompileError(path.filename().string()), shouldExpectRuntimeError(path.filename().string()));
+    report = out.str();
+    return ok;
+}
 
 bool runAllTests(const std::string& testsDir, bool debug, std::string& report, int& failedCount) {
     std::ostringstream out;
@@ -84,8 +120,8 @@ bool runAllTests(const std::string& testsDir, bool debug, std::string& report, i
     std::sort(testFiles.begin(), testFiles.end());
 
     for (const auto& path : testFiles) {
-        const bool expectError = path.filename() == "invalid_syntax.yl";
-        if (!runSingle(path, debug, out, expectError)) {
+        const auto name = path.filename().string();
+        if (!runSingle(path, debug, out, shouldExpectCompileError(name), shouldExpectRuntimeError(name))) {
             ++failedCount;
         }
     }
