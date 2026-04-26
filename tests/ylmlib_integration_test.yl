@@ -1,0 +1,6 @@
+import: ylmlib.yl
+program:
+  - call:
+      host: log
+      args:
+        text: "ylmlib smoke test"

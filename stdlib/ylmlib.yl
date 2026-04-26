@@ -1,0 +1,44 @@
+module: ylmlib
+import: io.yl
+import: math.yl
+import: string.yl
+import: logic.yl
+import: flow.yl
+import: data.yl
+export:
+  - if
+  - if_else
+  - when
+  - unless
+  - loop
+  - while
+  - repeat
+  - for_each
+  - break
+  - continue
+  - add
+  - sub
+  - mul
+  - div
+  - and
+  - or
+  - not
+  - equals
+  - gt
+  - lt
+  - concat
+  - length
+  - substring
+  - map
+  - filter
+  - reduce
+  - sequence
+  - pipeline
+  - step
+  - print
+  - log
+program:
+  - call:
+      host: log
+      args:
+        info: "ylmlib loaded: logic/math/string/flow/data core ready"

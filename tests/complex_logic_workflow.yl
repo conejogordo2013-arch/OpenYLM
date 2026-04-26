@@ -1,0 +1,20 @@
+import: ylmlib.yl
+program:
+  - call:
+      host: log
+      args:
+        start: "complex logic workflow test start"
+  - call:
+      host: math.add
+      args:
+        a: 42
+        b: 58
+  - call:
+      host: math.add
+      args:
+        c: 100
+        d: 250
+  - call:
+      host: log
+      args:
+        end: "complex logic workflow test end"
